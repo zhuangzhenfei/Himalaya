@@ -19,3 +19,25 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#混淆作用：
+#一、减少代码体积，把不用的代码干掉
+#二、加密
+-dontwarn okio.**
+-keep class okio.** { *;}
+​
+-dontwarn okhttp3.**
+-keep class okhttp3.** { *;}
+​
+-dontwarn com.google.gson.**
+-keep class com.google.gson.** { *;}
+​
+-dontwarn android.support.**
+-keep class android.support.** { *;}
+​
+-dontwarn com.ximalaya.ting.android.player.**
+-keep class com.ximalaya.ting.android.player.** { *;}
+​
+-dontwarn com.ximalaya.ting.android.opensdk.**
+-keep interface com.ximalaya.ting.android.opensdk.** {*;}
+-keep class com.ximalaya.ting.android.opensdk.** { *; }
