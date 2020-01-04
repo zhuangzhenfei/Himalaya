@@ -22,6 +22,7 @@ public class IndicatorAdapter extends CommonNavigatorAdapter {
 
 
     private final String[] mTitles;
+    private OnIndicatorTabClickListener mOnTabClickListener;
 
     public IndicatorAdapter(Context context) {
         mTitles = context.getResources().getStringArray(R.array.indicator_title);
@@ -52,10 +53,9 @@ public class IndicatorAdapter extends CommonNavigatorAdapter {
             @Override
             public void onClick(View v) {
                 //切换viewpage的内容，如果index不同
-                //TODO：
-//                if (mListener != null){
-//                    mListener.onTitleSelected(index);
-//                }
+                if (mOnTabClickListener != null){
+                    mOnTabClickListener.onTabClick(index);
+                }
             }
         });
         return colorTransitionPagerTitleView;
@@ -68,5 +68,13 @@ public class IndicatorAdapter extends CommonNavigatorAdapter {
         linePagerIndicator.setMode(LinePagerIndicator.MODE_WRAP_CONTENT);
         linePagerIndicator.setColors(Color.WHITE);
         return linePagerIndicator;
+    }
+
+    public void setOnIndicatorTabClickListener(OnIndicatorTabClickListener listener){
+        this.mOnTabClickListener = listener;
+    }
+
+    public interface OnIndicatorTabClickListener{
+        void onTabClick(int index);
     }
 }

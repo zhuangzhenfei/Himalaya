@@ -8,16 +8,18 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.android.himalaya.adapters.IndicatorAdapter;
 import com.android.himalaya.adapters.MainContentAdapter;
+import com.android.himalaya.utils.LogUtil;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 
 public class MainActivity extends FragmentActivity {
+    private static final String TAG = "MainActivity";
     private MagicIndicator mMagicIndicator;
     private ViewPager mContentPager;
-    private static final String TAG = "MainActivity";
     private FragmentManager mSupportFragmentManager;
+    private IndicatorAdapter mIndicatorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +27,29 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         initView();
+        initEvent();
+    }
+
+    private void initEvent() {
+        mIndicatorAdapter.setOnIndicatorTabClickListener(new IndicatorAdapter.OnIndicatorTabClickListener() {
+            @Override
+            public void onTabClick(int index) {
+                LogUtil.d(TAG,"click index is ----->" + index);
+                if (mContentPager != null){
+                    mContentPager.setCurrentItem(index);
+                }
+            }
+        });
     }
 
     private void initView() {
         mMagicIndicator = findViewById(R.id.magic_indicator3);
         mMagicIndicator.setBackgroundColor(this.getColor(R.color.main_color));
         //创建Indicator的适配器
-        IndicatorAdapter indicatorAdapter = new IndicatorAdapter(this);
+        mIndicatorAdapter = new IndicatorAdapter(this);
         CommonNavigator commonNavigator = new CommonNavigator(this);
-        commonNavigator.setAdapter(indicatorAdapter);
+        commonNavigator.setAdjustMode(true);
+        commonNavigator.setAdapter(mIndicatorAdapter);
 
         //ViewPage
         mContentPager = findViewById(R.id.content_pager);

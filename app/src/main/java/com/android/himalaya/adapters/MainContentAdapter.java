@@ -10,6 +10,8 @@ import com.android.himalaya.utils.FragmentCreator;
 /**
  * create by shadowman
  * on 2019/12/28
+ *
+ * 将fragment和indicator一一对应
  */
 public class MainContentAdapter extends FragmentPagerAdapter {
     public MainContentAdapter(FragmentManager fm) {

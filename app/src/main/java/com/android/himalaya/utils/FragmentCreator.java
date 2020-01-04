@@ -9,6 +9,10 @@ import java.util.Map;
 /**
  * create by shadowman
  * on 2019/12/28
+ *
+ * 添加fragment工具类，减少重复创建fragment，节省资源，
+ * 如果后续要添加fragment，可以直接添加静态常量
+ *
  */
 public class FragmentCreator {
     public final static int INDEX_RECOMMEND = 0;
