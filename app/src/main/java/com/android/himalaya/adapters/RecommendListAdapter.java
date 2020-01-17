@@ -23,6 +23,7 @@ import java.util.List;
 public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdapter.ViewHolder> {
 
     private List<Album> mData = new ArrayList<>();
+    private OnRecommendItemClick mOnRecommendItemClick;
 
     @NonNull
     @Override
@@ -36,6 +37,15 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
     public void onBindViewHolder(@NonNull RecommendListAdapter.ViewHolder holder, int position) {
         //设置数据
         holder.itemView.setTag(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnRecommendItemClick != null) {
+                    int clickPosition = (int) v.getTag();
+                    mOnRecommendItemClick.onItemClick(clickPosition, mData.get(clickPosition));
+                }
+            }
+        });
         holder.setData(mData.get(position));
     }
 
@@ -76,5 +86,13 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
 
             Glide.with(itemView.getContext()).load(album.getCoverUrlLarge()).into(albumCoverIv);
         }
+    }
+
+    public void setOnRecommendItemClick(OnRecommendItemClick onRecommendItemClick){
+        mOnRecommendItemClick = onRecommendItemClick;
+    }
+
+    public interface OnRecommendItemClick{
+        void onItemClick(int position, Album album);
     }
 }

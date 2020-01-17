@@ -20,16 +20,17 @@ public interface IRecommendCallback {
     void onRecommendListLoaded(List<Album> result);
 
     /**
-     * 加载更多
-     *
-     * @param result
+     * 网络错误
      */
-    void onLoadMore(List<Album> result);
+    void onNetworkError();
 
     /**
-     * 下拉加载更多
-     *
-     * @param result
+     * 数据为空
      */
-    void onReflashMore(List<Album> result);
+    void onEmpty();
+
+    /**
+     * 正在加载
+     */
+    void onLoading();
 }

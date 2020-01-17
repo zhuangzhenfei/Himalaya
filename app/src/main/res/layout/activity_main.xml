@@ -36,12 +36,13 @@
 
     </LinearLayout>
 
-
-
     <androidx.viewpager.widget.ViewPager
         android:overScrollMode="never"
         android:id="@+id/content_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 <!--        overScrollMode="never" 是将viewpage左右滑动时尽头阴影动画取消-->
+
+
+
 </LinearLayout>

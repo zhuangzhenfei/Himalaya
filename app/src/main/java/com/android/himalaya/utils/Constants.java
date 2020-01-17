@@ -1,7 +1,7 @@
 package com.android.himalaya.utils;
 
 /**
- * create by Administrator [chameleon]
+ * create by chameleon
  * on 2020/1/2 0002
  */
 public class Constants {

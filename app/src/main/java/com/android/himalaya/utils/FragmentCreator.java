@@ -1,7 +1,9 @@
 package com.android.himalaya.utils;
 
 import com.android.himalaya.base.BaseFragment;
+import com.android.himalaya.fragments.HistoryFragment;
 import com.android.himalaya.fragments.RecommendFragment;
+import com.android.himalaya.fragments.SubscriptionFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,10 +36,10 @@ public class FragmentCreator {
                 baseFragment = new RecommendFragment();
                 break;
             case INDEX_SUBSCRIPTION:
-                baseFragment = new RecommendFragment();
+                baseFragment = new SubscriptionFragment();
                 break;
             case INDEX_HISTORY:
-                baseFragment = new RecommendFragment();
+                baseFragment = new HistoryFragment();
                 break;
         }
         sCache.put(index, baseFragment);

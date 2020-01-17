@@ -27,6 +27,7 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         initView();
+
         initEvent();
     }
 
@@ -34,7 +35,7 @@ public class MainActivity extends FragmentActivity {
         mIndicatorAdapter.setOnIndicatorTabClickListener(new IndicatorAdapter.OnIndicatorTabClickListener() {
             @Override
             public void onTabClick(int index) {
-                LogUtil.d(TAG,"click index is ----->" + index);
+                LogUtil.d(TAG,"click index is -- >" + index);
                 if (mContentPager != null){
                     mContentPager.setCurrentItem(index);
                 }

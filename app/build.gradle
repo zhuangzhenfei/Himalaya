@@ -23,8 +23,8 @@ android {
         }
     }
 //    新建jnilibs文件夹
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             jniLibs.srcDirs = ['libs']
         }
     }
