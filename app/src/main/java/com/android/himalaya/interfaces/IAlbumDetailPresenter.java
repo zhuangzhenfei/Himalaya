@@ -24,4 +24,18 @@ public interface IAlbumDetailPresenter {
      */
     void getAlbumDetail(int albumId, int page);
 
+
+    /**
+     * 注册接口
+     *
+     * @param iAlbumDetailViewCallback
+     */
+    void registerViewCallback( IAlbumDetailViewCallback iAlbumDetailViewCallback);
+
+    /**
+     * 取消注册接口
+     *
+     * @param iAlbumDetailViewCallback
+     */
+    void unRegisterViewCallback(IAlbumDetailViewCallback iAlbumDetailViewCallback);
 }

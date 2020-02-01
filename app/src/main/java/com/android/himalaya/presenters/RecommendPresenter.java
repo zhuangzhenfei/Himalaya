@@ -25,9 +25,8 @@ public class RecommendPresenter implements IRecommendPresenter {
 
     private List<IRecommendCallback> mCallbacks = new ArrayList<>();
 
-    //创建单例步骤
-    private RecommendPresenter() {
-    }
+    //私有化构造方法，创建单例
+    private RecommendPresenter() {}
 
     private static RecommendPresenter sInstance = null;
 
@@ -57,7 +56,7 @@ public class RecommendPresenter implements IRecommendPresenter {
         //加载数据时出现的空档期出现加载中界面，这是一个调用会有一个callback，这个callback可以调用所有的“加载情况界面”，运行中调用那个方法就出现那个界面。
         updateLoading();
         Map<String, String> map = new HashMap<>();
-        map.put(DTransferConstants.LIKE_COUNT, Constants.RECOMMEND_COUNT + "");
+        map.put(DTransferConstants.LIKE_COUNT, Constants.COUNT_RECOMMEND + "");
         CommonRequest.getGuessLikeAlbum(map, new IDataCallBack<GussLikeAlbumList>() {
             @Override
             public void onSuccess(GussLikeAlbumList gussLikeAlbumList) {
@@ -120,7 +119,7 @@ public class RecommendPresenter implements IRecommendPresenter {
 
     }
 
-    //每有一个界面调用这个注册接口，就会有哦一个callback传回来
+    //每有一个界面调用这个注册接口，就会有一个callback传回来
     @Override
     public void registerViewCallback(IRecommendCallback callback) {
         //只有一个使用mcallback

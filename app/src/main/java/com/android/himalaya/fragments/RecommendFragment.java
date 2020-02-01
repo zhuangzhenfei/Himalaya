@@ -74,8 +74,8 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 //UIUtiil工具类可以将px转为pd，pd转为px
-                outRect.bottom = UIUtil.dip2px(view.getContext(), 5);
-                outRect.top = UIUtil.dip2px(view.getContext(), 5);
+                outRect.bottom = UIUtil.dip2px(view.getContext(), 4);
+                outRect.top = UIUtil.dip2px(view.getContext(), 4);
                 outRect.left = UIUtil.dip2px(view.getContext(), 5);
                 outRect.right = UIUtil.dip2px(view.getContext(), 5);
             }
@@ -140,6 +140,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
 
     @Override
     public void onItemClick(int position, Album album) {
+        //presenter层传数据
         AlbumDetailPresenter.getInstance().setTargetAlbum(album);
         //item被点击
         Intent intent = new Intent(getContext(), DetailActivity.class);
