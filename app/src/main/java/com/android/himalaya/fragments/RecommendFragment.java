@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.himalaya.DetailActivity;
 import com.android.himalaya.R;
-import com.android.himalaya.adapters.RecommendListAdapter;
+import com.android.himalaya.adapters.AlbumListAdapter;
 import com.android.himalaya.base.BaseFragment;
 import com.android.himalaya.interfaces.IRecommendCallback;
 import com.android.himalaya.presenters.AlbumDetailPresenter;
 import com.android.himalaya.presenters.RecommendPresenter;
 import com.android.himalaya.utils.LogUtil;
 import com.android.himalaya.views.UILoader;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
@@ -29,11 +30,11 @@ import java.util.List;
  * create by shadowman
  * on 2019/12/28
  */
-public class RecommendFragment extends BaseFragment implements IRecommendCallback, RecommendListAdapter.OnRecommendItemClick {
+public class RecommendFragment extends BaseFragment implements IRecommendCallback, AlbumListAdapter.OnRecommendItemClick {
     private static final String TAG = "RecommendFragment";
     private View mRootView;
     private RecyclerView mRecommendRv;
-    private RecommendListAdapter mRecommendListAdapter;
+    private AlbumListAdapter mAlbumListAdapter;
     private RecommendPresenter mRecommendPresenter;
     private UILoader mUiLoader;
 
@@ -65,8 +66,11 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
     }
 
     private View createSuccessView(LayoutInflater layoutInflater, ViewGroup container) {
+        //1. 加载view
         mRootView = layoutInflater.inflate(R.layout.fragment_recommend, container, false);
         mRecommendRv = mRootView.findViewById(R.id.recommend_list);
+        TwinklingRefreshLayout twinklingRefreshLayout = mRootView.findViewById(R.id.over_scroll_view);
+        twinklingRefreshLayout.setPureScrollModeOn();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mRecommendRv.setLayoutManager(linearLayoutManager);
@@ -80,9 +84,9 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
                 outRect.right = UIUtil.dip2px(view.getContext(), 5);
             }
         });
-        mRecommendListAdapter = new RecommendListAdapter();
-        mRecommendRv.setAdapter(mRecommendListAdapter);
-        mRecommendListAdapter.setOnRecommendItemClick(this);
+        mAlbumListAdapter = new AlbumListAdapter();
+        mRecommendRv.setAdapter(mAlbumListAdapter);
+        mAlbumListAdapter.setOnRecommendItemClick(this);
         return mRootView;
     }
 
@@ -91,7 +95,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
         LogUtil.d(TAG,"onRecommendListLoaded");
         //当获取到推荐内容的时候，此方法就会被调用（成功）
         //把数据设置给适配器，并且更新UI
-        mRecommendListAdapter.setData(result);
+        mAlbumListAdapter.setData(result);
         mUiLoader.updateStatus(UILoader.UIStatus.SUCCESS);
     }
 

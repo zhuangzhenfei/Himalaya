@@ -1,10 +1,12 @@
 package com.android.himalaya.interfaces;
 
+import com.android.himalaya.base.IBasePresenter;
+
 /**
  * create by chameleon
  * on 2020/1/3 0003
  */
-public interface IRecommendPresenter {
+public interface IRecommendPresenter extends IBasePresenter<IRecommendCallback> {
 
     /**
      * 获取推荐内容
@@ -14,24 +16,11 @@ public interface IRecommendPresenter {
     /**
      * 下拉刷新更多
      */
-    void pullToReflashMore();
+    void pullToRefreshMore();
 
     /**
      * 上拉加载更多
      */
     void loadMore();
 
-    /**
-     * 注册UI的回调
-     *
-     * @param callback
-     */
-    void registerViewCallback(IRecommendCallback callback);
-
-    /**
-     * 取消UI注册的回调
-     *
-     * @param callback
-     */
-    void unRegisterViewCallback(IRecommendCallback callback);
 }

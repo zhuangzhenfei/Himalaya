@@ -1,11 +1,13 @@
 package com.android.himalaya.base;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Handler;
 
 import com.android.himalaya.utils.LogUtil;
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
+import com.ximalaya.ting.android.opensdk.player.XmPlayerManager;
 
 /**
  * create by shadowman
@@ -13,8 +15,9 @@ import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
  */
 public class BaseApplication extends Application {
 
-
     private static Handler sHandler = null;
+
+    private static Context sContext = null;
 
     @Override
     public void onCreate() {
@@ -33,9 +36,19 @@ public class BaseApplication extends Application {
             mXimalaya.init(this, mAppSecret);
         }
 
+        //初始化播放器
+        XmPlayerManager.getInstance(this).init();
+
+        //初始化Log工具
         LogUtil.init(this.getPackageName(), false);
 
         sHandler = new Handler();
+
+        sContext = getBaseContext();
+    }
+
+    public static Context getAppContext(){
+        return sContext;
     }
 
     public static Handler getHandler(){

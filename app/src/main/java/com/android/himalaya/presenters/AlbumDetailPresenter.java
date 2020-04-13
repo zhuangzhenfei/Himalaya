@@ -1,5 +1,6 @@
 package com.android.himalaya.presenters;
 
+import com.android.himalaya.api.HimalayaApi;
 import com.android.himalaya.interfaces.IAlbumDetailPresenter;
 import com.android.himalaya.interfaces.IAlbumDetailViewCallback;
 import com.android.himalaya.utils.Constants;
@@ -24,8 +25,11 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
 
     private static final String TAG = "AlbumDetailPresenter";
     private List<IAlbumDetailViewCallback> mCallbacks = new ArrayList<>();
+    private List<Track> mTracks = new ArrayList<>();
 
     private Album mTargetAlbum = null;
+    private int mCurrentAlbumId = 1;
+    private int mCurrentPageIndex = 0;
 
     private AlbumDetailPresenter() {
     }
@@ -50,35 +54,77 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
 
     @Override
     public void loadMore() {
-
+        //加载更多内容
+        mCurrentPageIndex++;
+        //传入true，表示结果加载后面
+        doLoaded(true);
     }
 
-    @Override
-    public void getAlbumDetail(int albumId, int page) {
-        Map<String, String> map = new HashMap<>();
-        map.put(DTransferConstants.ALBUM_ID, albumId + "");
-        map.put(DTransferConstants.SORT, "asc");
-        map.put(DTransferConstants.PAGE, page + "");
-        map.put(DTransferConstants.PAGE_SIZE, Constants.COUNT_DEAFAULT + "");
-        CommonRequest.getTracks(map, new IDataCallBack<TrackList>() {
+    public void doLoaded(final boolean isLoadMore){
+        HimalayaApi himalayaApi = HimalayaApi.getHimalayaApi();
+        himalayaApi.getAlbumDetail(mCurrentAlbumId, mCurrentPageIndex, new IDataCallBack<TrackList>() {
             @Override
             public void onSuccess(TrackList trackList) {
                 if (trackList != null) {
                     List<Track> tracks = trackList.getTracks();
                     LogUtil.d(TAG, "tracks size --> " + tracks.size());
-                    handleAlbumDetailResult(tracks);
+                    if (isLoadMore) {
+                        //下拉加载更多，在后面加载数据
+                        mTracks.addAll(tracks);
+                        int size = tracks.size();
+                        handleLoadedMoreResult(size);
+                    } else {
+                        //刷新，在前面加载数据
+                        mTracks.addAll(0, tracks);
+//                        handleRefreshMoreResult(size);
+                    }
+                    handleAlbumDetailResult(mTracks);
                 }
             }
 
             @Override
             public void onError(int errorCode, String errorMsg) {
+                if (isLoadMore) {
+                    mCurrentPageIndex--;
+                }
                 LogUtil.d(TAG, "errorCode --> " + errorCode);
                 LogUtil.d(TAG, "errorMsg --> " + errorMsg);
+                handlerError(errorCode, errorMsg);
             }
         });
+    }
+
+    private void handleLoadedMoreResult(int size) {
+        for (IAlbumDetailViewCallback callback : mCallbacks) {
+            callback.onLoaderMoreFinished(size);
+        }
+    }
+
+    @Override
+    public void getAlbumDetail(int albumId, int page) {
+        mTracks.clear();
+        this.mCurrentAlbumId = albumId;
+        this.mCurrentPageIndex = page;
+        //更好用页码和专辑id获取列表
+        doLoaded(false);
 
     }
 
+    /**
+     * 如果发生错误，那么就通知UI
+     * @param errorCode
+     * @param errorMsg
+     */
+    private void handlerError(int errorCode, String errorMsg) {
+        for (IAlbumDetailViewCallback callback : mCallbacks) {
+            callback.onNetWorkError(errorCode, errorMsg);
+        }
+    }
+
+    /**
+     * 返回数据
+     * @param tracks
+     */
     private void handleAlbumDetailResult(List<Track> tracks) {
         for (IAlbumDetailViewCallback callback : mCallbacks) {
             callback.onDetailListLoaded(tracks);

@@ -20,21 +20,21 @@ import java.util.List;
  * create by Administrator [chameleon]
  * on 2020/1/3 0003
  */
-public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdapter.ViewHolder> {
+public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.ViewHolder> {
 
     private List<Album> mData = new ArrayList<>();
     private OnRecommendItemClick mOnRecommendItemClick;
 
     @NonNull
     @Override
-    public RecommendListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AlbumListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //载入view
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecommendListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AlbumListAdapter.ViewHolder holder, int position) {
         //设置数据
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailActivity"
-    android:background="#f4f4f4">
+    android:background="#f4f4f4"
+    tools:context=".DetailActivity">
 
     <ImageView
         android:id="@+id/iv_latge_cover"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:scaleType="fitXY"
-        tools:ignore="MissingConstraints"/>
+        tools:ignore="MissingConstraints" />
 
     <RelativeLayout
         android:id="@+id/subscription_container"
@@ -24,12 +23,12 @@
         <TextView
             android:layout_width="75dp"
             android:layout_height="30dp"
-            android:gravity="center"
-            android:text="+订阅"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="14dp"
-            android:background="@drawable/shape_subscription_bg"/>
+            android:background="@drawable/shape_subscription_bg"
+            android:gravity="center"
+            android:text="+订阅" />
 
     </RelativeLayout>
 
@@ -42,40 +41,44 @@
 
         <ImageView
             android:id="@+id/detail_play_control"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/play_icon"/>
+            android:padding="10dp"
+            android:src="@drawable/play_black_normal" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/play_control_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="继续播放"
-            android:textSize="14dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="100dp"
+            android:singleLine="true"
             android:layout_toRightOf="@+id/detail_play_control"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:text="@string/click_play_tips_text"
+            android:textSize="14dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="选集"
-            android:textSize="14dp"
-            android:layout_marginRight="5dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/detail_arrow"/>
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/detail_arrow"
+            android:text="选集"
+            android:textSize="14dp" />
 
         <ImageView
             android:id="@+id/detail_arrow"
             android:layout_width="16dp"
             android:layout_height="8dp"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:src="@drawable/arrow_icon"
-            android:layout_alignParentRight="true"/>
+            android:src="@drawable/arrow_icon" />
     </RelativeLayout>
-
 
 
     <com.android.himalaya.views.RoundRectImageView
@@ -83,42 +86,44 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_below="@+id/iv_latge_cover"
-        android:scaleType="fitXY"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="-40dp"/>
+        android:layout_marginTop="-40dp"
+        android:scaleType="fitXY" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/iv_small_cover"
         android:layout_below="@+id/iv_latge_cover"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="-30dp"
+        android:layout_toRightOf="@+id/iv_small_cover"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_album_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:text="这是标题"
             android:textColor="@color/white"
-            android:text="这是标题"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_album_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/sub_text_title"
             android:layout_marginTop="10dp"
-            android:text="这是作者信息"/>
+            android:text="这是作者信息"
+            android:textColor="@color/sub_text_title"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/album_detail_list"
+    <FrameLayout
+        android:id="@+id/detail_list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/player_control_container"/>
+        android:layout_below="@+id/player_control_container">
+
+    </FrameLayout>
 
 </RelativeLayout>

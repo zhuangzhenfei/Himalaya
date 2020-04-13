@@ -1,7 +1,5 @@
 package com.android.himalaya.interfaces;
 
-import android.os.Trace;
-
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 
@@ -21,9 +19,24 @@ public interface IAlbumDetailViewCallback {
     void onDetailListLoaded(List<Track> traces);
 
     /**
+     * 网络错误
+     *
+     */
+    void onNetWorkError(int errorCode, String errorMsg);
+
+    /**
      * 把album传给UI使用
      *
      * @param album
      */
     void onAlbumLoaded(Album album);
+
+    /**
+     * 加载更多的结果
+     *
+     * @param size size>0 表示加载成功 else表示加载失败
+     */
+    void onLoaderMoreFinished(int size);
+
+    void onRefreshedFinished(int size);
 }
