@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -85,9 +86,8 @@ public class PlayerActivity extends BaseActivity implements IPlayCallBack, ViewP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
         initView();
-        mPlayerPresenter = PlayerPresenter.getPlayerpresenter();
+        mPlayerPresenter = PlayerPresenter.getPlayerPresenter();
         mPlayerPresenter.registerViewCallback(this);
-
         initEvent();
         initBgAnimation();
     }
@@ -362,7 +362,7 @@ public class PlayerActivity extends BaseActivity implements IPlayCallBack, ViewP
     }
 
     @Override
-    public void prePlay(Track track) {
+    public void onPrePlay(Track track) {
 
     }
 
@@ -388,7 +388,7 @@ public class PlayerActivity extends BaseActivity implements IPlayCallBack, ViewP
     }
 
     @Override
-    public void onProgressbarChange(int currentProgress, int total) {
+    public void onProgressChange(int currentProgress, int total) {
         mDurationBar.setMax(total);
         //更新播放进度
         String totalDuration;
@@ -418,7 +418,8 @@ public class PlayerActivity extends BaseActivity implements IPlayCallBack, ViewP
 
     @Override
     public void onAdLoading() {
-
+        mCurrentPosition.setText("00:00");
+        mDurationBar.setProgress(0);
     }
 
     @Override

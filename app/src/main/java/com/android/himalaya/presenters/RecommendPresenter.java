@@ -1,6 +1,6 @@
 package com.android.himalaya.presenters;
 
-import com.android.himalaya.api.HimalayaApi;
+import com.android.himalaya.data.HimalayaApi;
 import com.android.himalaya.interfaces.IRecommendCallback;
 import com.android.himalaya.interfaces.IRecommendPresenter;
 import com.android.himalaya.utils.LogUtil;

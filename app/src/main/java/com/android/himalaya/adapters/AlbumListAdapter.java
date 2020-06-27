@@ -23,7 +23,8 @@ import java.util.List;
 public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.ViewHolder> {
 
     private List<Album> mData = new ArrayList<>();
-    private OnRecommendItemClick mOnRecommendItemClick;
+    private OnAlbumItemClickListener mOnRecommendItemClick = null;
+    private onAlbumItemLongClickListener mLongClickListener = null;
 
     @NonNull
     @Override
@@ -47,23 +48,37 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
             }
         });
         holder.setData(mData.get(position));
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mLongClickListener != null) {
+                    int clickPosition = (int) v.getTag();
+                    mLongClickListener.onItemLongClick(mData.get(clickPosition));
+                }
+                return true;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        if (mData != null){
+        if (mData != null) {
             return mData.size();
         }
         return 0;
     }
 
     public void setData(List<Album> albumList) {
-        if (mData != null){
+        if (mData != null) {
             mData.clear();
             mData.addAll(albumList);
         }
         //每次数据改变都会更新UI
         notifyDataSetChanged();
+    }
+
+    public int getDataSize() {
+        return mData.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -84,15 +99,32 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
             albumPlayCountTv.setText(album.getPlayCount() + "");
             albumContentTv.setText(album.getIncludeTrackCount() + "");
 
-            Glide.with(itemView.getContext()).load(album.getCoverUrlLarge()).into(albumCoverIv);
+            String coverUrlLarge = album.getCoverUrlLarge();
+            if (coverUrlLarge != null) {
+                Glide.with(itemView.getContext()).load(album.getCoverUrlLarge()).into(albumCoverIv);
+            } else {
+                albumCoverIv.setImageResource(R.mipmap.logo);
+            }
+
         }
     }
 
-    public void setOnRecommendItemClick(OnRecommendItemClick onRecommendItemClick){
+    public void setAlbumItemClickListener(OnAlbumItemClickListener onRecommendItemClick) {
         mOnRecommendItemClick = onRecommendItemClick;
     }
 
-    public interface OnRecommendItemClick{
+    public interface OnAlbumItemClickListener {
         void onItemClick(int position, Album album);
+    }
+
+    public void setOnAlbumItemLongClickListener(onAlbumItemLongClickListener listener) {
+        mLongClickListener = listener;
+    }
+
+    /**
+     * Item长按的接口
+     */
+    public interface onAlbumItemLongClickListener {
+        void onItemLongClick(Album album);
     }
 }

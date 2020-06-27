@@ -22,7 +22,7 @@ public interface IAlbumDetailViewCallback {
      * 网络错误
      *
      */
-    void onNetWorkError(int errorCode, String errorMsg);
+    void onNetworkError(int errorCode, String errorMsg);
 
     /**
      * 把album传给UI使用
@@ -38,5 +38,5 @@ public interface IAlbumDetailViewCallback {
      */
     void onLoaderMoreFinished(int size);
 
-    void onRefreshedFinished(int size);
+    void onRefreshFinished(int size);
 }

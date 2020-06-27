@@ -34,7 +34,7 @@ public class PlayerTrackPagerAdapter extends PagerAdapter {
         //找到控件
         ImageView item = itemView.findViewById(R.id.track_pager_item);
         //设置图片
-        LogUtil.e(TAG, "adapter position==" + position);
+        LogUtil.d(TAG, "adapter position==" + position);
         Track track = mData.get(position);
         String coverUriLarge = track.getCoverUrlLarge();
         Picasso.with(container.getContext()).load(coverUriLarge).into(item);

@@ -30,7 +30,7 @@ import java.util.List;
  * create by shadowman
  * on 2019/12/28
  */
-public class RecommendFragment extends BaseFragment implements IRecommendCallback, AlbumListAdapter.OnRecommendItemClick {
+public class RecommendFragment extends BaseFragment implements IRecommendCallback, AlbumListAdapter.OnAlbumItemClickListener {
     private static final String TAG = "RecommendFragment";
     private View mRootView;
     private RecyclerView mRecommendRv;
@@ -86,7 +86,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
         });
         mAlbumListAdapter = new AlbumListAdapter();
         mRecommendRv.setAdapter(mAlbumListAdapter);
-        mAlbumListAdapter.setOnRecommendItemClick(this);
+        mAlbumListAdapter.setAlbumItemClickListener(this);
         return mRootView;
     }
 

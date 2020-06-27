@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import com.android.himalaya.api.HimalayaApi;
+import com.android.himalaya.data.HimalayaApi;
 import com.android.himalaya.base.BaseApplication;
 import com.android.himalaya.interfaces.IPlayCallBack;
 import com.android.himalaya.interfaces.IPlayPresenter;
@@ -46,9 +46,9 @@ public class PlayerPresenter implements IPlayPresenter, IXmAdsStatusListener, IX
     private int mCurrentIndex = DEFAULT_PLAY_INDEX;
     private final SharedPreferences mPlayModeSp;
     private XmPlayListControl.PlayMode mCurrentPlayMode = XmPlayListControl.PlayMode.PLAY_MODEL_LIST;
+    private boolean mIsReverse;
 
-
-    //    PLAY_MODEL_LIST
+//    PLAY_MODEL_LIST
 //    PLAY_MODEL_LIST_LOOP
 //    PLAY_MODEL_RANDOM
 //    PLAY_MODEL_SINGLE_LOOP
@@ -60,7 +60,6 @@ public class PlayerPresenter implements IPlayPresenter, IXmAdsStatusListener, IX
     //sp's key and name
     public static final String PLAY_MODE_SP_NAME = "play_mode";
     public static final String PLAY_MODE_SP_KEY = "currentPlayMode";
-    private boolean mIsReverse;
     private int mCurrentProgressPosition = 0;
     private int mProgressDuration = 0;
 
@@ -76,7 +75,7 @@ public class PlayerPresenter implements IPlayPresenter, IXmAdsStatusListener, IX
 
     private static PlayerPresenter sPlayerpresenter;
 
-    public static PlayerPresenter getPlayerpresenter() {
+    public static PlayerPresenter getPlayerPresenter() {
         if (sPlayerpresenter == null) {
             synchronized (PlayerPresenter.class) {
                 if (sPlayerpresenter == null) {
@@ -194,7 +193,6 @@ public class PlayerPresenter implements IPlayPresenter, IXmAdsStatusListener, IX
     public void getPlayList() {
         if (mPlayerManager != null) {
             List<Track> playList = mPlayerManager.getPlayList();
-            mPlayerManager.getPlayList();
             for (IPlayCallBack iPlayCallBack : mIPlayCallBacks) {
                 iPlayCallBack.onListLoaded(playList);
             }
@@ -244,7 +242,7 @@ public class PlayerPresenter implements IPlayPresenter, IXmAdsStatusListener, IX
         //TODO:
         //1.获取专辑的数据
         HimalayaApi himalayaApi = HimalayaApi.getHimalayaApi();
-        himalayaApi.getAlbumDetail((int)id, 1, new IDataCallBack<TrackList>() {
+        himalayaApi.getAlbumDetail((int) id, 1, new IDataCallBack<TrackList>() {
             @Override
             public void onSuccess(TrackList trackList) {
                 //2.专辑内容设置给播放器
@@ -276,7 +274,7 @@ public class PlayerPresenter implements IPlayPresenter, IXmAdsStatusListener, IX
         getPlayList();
         //通知当前的节目
         iPlayCallBack.onTrackUpdate(mCurrentTrack, mCurrentIndex);
-        iPlayCallBack.onProgressbarChange(mCurrentProgressPosition, mProgressDuration);
+        iPlayCallBack.onProgressChange(mCurrentProgressPosition, mProgressDuration);
         //更新状态
         handlePlayState(iPlayCallBack);
         //从sp里拿数据
@@ -387,7 +385,9 @@ public class PlayerPresenter implements IPlayPresenter, IXmAdsStatusListener, IX
         if (lastModel != null) {
             LogUtil.d(TAG, "lastModel ==> " + lastModel.getKind());
         }
-        LogUtil.d(TAG, "currModel ==> " + currModel.getKind());
+        if (currModel != null) {
+            LogUtil.d(TAG, "currModel ==> " + currModel.getKind());
+        }
         //currModel代表当前的播放内容
         //通过getKind（）方法来获取数据类型
         //track表示track类型
@@ -395,7 +395,10 @@ public class PlayerPresenter implements IPlayPresenter, IXmAdsStatusListener, IX
         if (currModel instanceof Track) {
             Track currentTrack = (Track) currModel;
             mCurrentTrack = currentTrack;
-            LogUtil.d(TAG, "title == > " + currentTrack.getTrackTitle());
+            //保存播放记录
+            HistoryPresenter historyPresenter = HistoryPresenter.getHistoryPresenter();
+            historyPresenter.addHistory(currentTrack);
+            //LogUtil.d(TAG, "title == > " + currentTrack.getTrackTitle());
             //更新标题UI
             for (IPlayCallBack iPlayCallBack : mIPlayCallBacks) {
                 iPlayCallBack.onTrackUpdate(mCurrentTrack, mCurrentIndex);
@@ -426,7 +429,7 @@ public class PlayerPresenter implements IPlayPresenter, IXmAdsStatusListener, IX
         //单位是毫秒
         LogUtil.d(TAG, "onPlayProgress currPos==>" + currPos + "duration ==>" + duration);
         for (IPlayCallBack iPlayCallBack : mIPlayCallBacks) {
-            iPlayCallBack.onProgressbarChange(currPos, duration);
+            iPlayCallBack.onProgressChange(currPos, duration);
         }
     }
 

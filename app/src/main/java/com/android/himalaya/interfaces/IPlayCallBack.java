@@ -39,7 +39,7 @@ public interface IPlayCallBack {
     /**
      * 上一首
      */
-    void prePlay(Track track);
+    void onPrePlay(Track track);
 
     /**
      * 播放列表数据加载完成
@@ -58,7 +58,7 @@ public interface IPlayCallBack {
      * @param currentProgress 当前进度条
      * @param total 总进度条
      */
-    void onProgressbarChange(int currentProgress, int total);
+    void onProgressChange(int currentProgress, int total);
 
     /**
      * 广告正在加载

@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,12 +20,13 @@ import java.util.List;
  * create by chameleon
  * on 2020/1/21 0021
  */
-public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.ViewHolder> {
-    private List<Track> mDataList = new ArrayList<>();
+public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.ViewHolder> {
+    private List<Track> mDetailData = new ArrayList<>();
     //设置时间格式
     private SimpleDateFormat mUpdateDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat mDurationFormat = new SimpleDateFormat("mm:ss");
     private ItemClickListener mItemCLickListener;
+    private ItemLongClickListener mItemLongClickListener = null;
 
     @NonNull
     @Override
@@ -42,7 +44,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
         TextView durationTv = itemView.findViewById(R.id.detail_item_duration);
         TextView updateDateTv = itemView.findViewById(R.id.detail_item_update_time);
 
-        Track track = mDataList.get(position);
+        Track track = mDetailData.get(position);
         orderTv.setText((position + 1) + "");
         titleTv.setText(track.getTrackTitle());
         playCountTv.setText(track.getPlayCount() + "");
@@ -55,23 +57,33 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                Toast.makeText(v.getContext(), "you click" + position + "item", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "you click" + position + "item", Toast.LENGTH_SHORT).show();
                 if (mItemCLickListener != null) {
-                    mItemCLickListener.onItemCLick(mDataList, position);
+                    //参数需要的列表和位置
+                    mItemCLickListener.onItemClick(mDetailData, position);
                 }
+            }
+        });
+
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mItemLongClickListener != null) {
+                    mItemLongClickListener.onItemLongClikc(track);
+                }
+                return true;
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mDataList.size();
+        return mDetailData.size();
     }
 
-    public void setData(List<Track> traces) {
-        mDataList.clear();
-        mDataList.addAll(traces);
+    public void setData(List<Track> tracks) {
+        mDetailData.clear();
+        mDetailData.addAll(tracks);
         notifyDataSetChanged();
     }
 
@@ -86,6 +98,14 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
     }
 
     public interface ItemClickListener {
-        void onItemCLick(List<Track> dataList, int position);
+        void onItemClick(List<Track> dataList, int position);
+    }
+
+    public void setItemLongClickListener(ItemLongClickListener listener){
+        this.mItemLongClickListener = listener;
+    }
+
+    public interface ItemLongClickListener{
+        void onItemLongClikc(Track track);
     }
 }

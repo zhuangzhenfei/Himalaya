@@ -1,21 +1,16 @@
 package com.android.himalaya.presenters;
 
-import com.android.himalaya.api.HimalayaApi;
+import com.android.himalaya.data.HimalayaApi;
 import com.android.himalaya.interfaces.IAlbumDetailPresenter;
 import com.android.himalaya.interfaces.IAlbumDetailViewCallback;
-import com.android.himalaya.utils.Constants;
 import com.android.himalaya.utils.LogUtil;
-import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
-import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.model.track.TrackList;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * create by chameleon
@@ -117,7 +112,7 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
      */
     private void handlerError(int errorCode, String errorMsg) {
         for (IAlbumDetailViewCallback callback : mCallbacks) {
-            callback.onNetWorkError(errorCode, errorMsg);
+            callback.onNetworkError(errorCode, errorMsg);
         }
     }
 

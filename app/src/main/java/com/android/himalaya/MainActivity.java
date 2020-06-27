@@ -53,7 +53,7 @@ public class MainActivity extends FragmentActivity implements IPlayCallBack {
     }
 
     private void initPresenter() {
-        mPlayerPresenter = PlayerPresenter.getPlayerpresenter();
+        mPlayerPresenter = PlayerPresenter.getPlayerPresenter();
         mPlayerPresenter.registerViewCallback(this);
     }
 
@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity implements IPlayCallBack {
             public void onTabClick(int index) {
                 LogUtil.d(TAG, "click index is -- >" + index);
                 if (mContentPager != null) {
-                    mContentPager.setCurrentItem(index);
+                    mContentPager.setCurrentItem(index,false);
                 }
             }
         });
@@ -191,7 +191,7 @@ public class MainActivity extends FragmentActivity implements IPlayCallBack {
     }
 
     @Override
-    public void prePlay(Track track) {
+    public void onPrePlay(Track track) {
 
     }
 
@@ -206,7 +206,7 @@ public class MainActivity extends FragmentActivity implements IPlayCallBack {
     }
 
     @Override
-    public void onProgressbarChange(int currentProgress, int total) {
+    public void onProgressChange(int currentProgress, int total) {
 
     }
 
